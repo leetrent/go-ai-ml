@@ -1,0 +1,47 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Go build artifacts
+*.test
+*.out
+
+# Go coverage files
+*.cover
+coverage.out
+
+# Go modules
+# (These are usually committed, but ignore backups or temp files)
+go.sum.tmp
+go.sum.orig
+
+# Compiled binary (if you build and leave it in project root)
+main
+app
+*.bin
+
+# Vendor directory (optional — keep if you vendor dependencies)
+vendor/
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.bak
+
+# IDE/editor files
+# VS Code
+.vscode/
+# GoLand / IntelliJ
+.idea/
+# Sublime Text
+*.sublime-workspace
+*.sublime-project
+
+# OS files
+.DS_Store
+Thumbs.db
