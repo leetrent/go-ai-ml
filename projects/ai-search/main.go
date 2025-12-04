@@ -53,7 +53,7 @@ func main() {
 	fmt.Println("maze height/width", m.Height, m.Width)
 }
 
-func (g Maze) Load(fileName string) error {
+func (g *Maze) Load(fileName string) error {
 	f, err := os.Open(fileName)
 	if err != nil {
 		fmt.Printf("Error opening %s: %s\n", fileName, err)
@@ -71,31 +71,33 @@ func (g Maze) Load(fileName string) error {
 			return errors.New(fmt.Sprintf("Cannot open file %s: %s", fileName, err))
 		}
 		fileContents = append(fileContents, line)
+	}
 
-		foundStart, foundEnd := false, false
-		for _, line := range fileContents {
-			if strings.Contains(line, "A") {
-				foundStart = true
-			}
-			if strings.Contains(line, "B") {
-				foundEnd = true
-			}
+	foundStart, foundEnd := false, false
+	for _, line := range fileContents {
+		if strings.Contains(line, "A") {
+			foundStart = true
 		}
+		if strings.Contains(line, "B") {
+			foundEnd = true
+		}
+	}
 
-		if !foundStart {
-			return errors.New("starting location not found.")
-		}
-		if !foundEnd {
-			return errors.New("ending location not found.")
-		}
+	if !foundStart {
+		return errors.New("starting location not found.")
+	}
+	if !foundEnd {
+		return errors.New("ending location not found.")
 	}
 
 	g.Height = len(fileContents)
 	g.Width = len(fileContents[0])
 
 	var rows [][]Wall
+
 	for i, row := range fileContents {
 		var cols []Wall
+
 		for j, col := range row {
 			curLetter := fmt.Sprintf("%c", col)
 			var wall Wall
