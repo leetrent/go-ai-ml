@@ -10,6 +10,7 @@ import (
 	"strings"
 )
 
+// Set ids for search types.
 const (
 	DFS = iota
 	BFS
@@ -18,16 +19,21 @@ const (
 	DIJKSTRA
 )
 
+// Point is a simple struct to store XY coordinates of a node.
 type Point struct {
 	Row int
 	Col int
 }
 
+// Wall is the type used to keep track of potential nodes that
+// are walls, and cannot be explored.
 type Wall struct {
 	State Point
 	wall  bool
 }
 
+// Maze is the type for our game. It keeps track of all the information we need to complete the
+// maze, if possible.
 type Maze struct {
 	Height int
 	Width  int
@@ -36,14 +42,18 @@ type Maze struct {
 	Walls  [][]Wall
 }
 
+// main is the entry point to our application.
 func main() {
+	// Declare some variables.
 	var m Maze
 	var maze, searchType string
 
+	// Read command line flags, and set some sensible defaults.
 	flag.StringVar(&maze, "file", "maze.txt", "maze file")
 	flag.StringVar(&searchType, "search", "dfs", "search type")
 	flag.Parse()
 
+	// Load and parse the maze file.
 	err := m.Load(maze)
 	if err != nil {
 		fmt.Println(err)
