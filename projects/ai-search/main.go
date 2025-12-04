@@ -35,11 +35,30 @@ type Wall struct {
 // Maze is the type for our game. It keeps track of all the information we need to complete the
 // maze, if possible.
 type Maze struct {
-	Height int
-	Width  int
-	Start  Point
-	Goal   Point
-	Walls  [][]Wall
+	Height      int
+	Width       int
+	Start       Point
+	Goal        Point
+	Walls       [][]Wall
+	CurrentNote *Node
+	Solution    Solution
+	Explored    []Point
+	Steps       int
+	NumExplored int
+	Debug       bool
+	SearchType  int
+}
+
+type Node struct {
+	index  int
+	State  Point
+	Parent *Node
+	Action string
+}
+
+type Solution struct {
+	Action []string
+	Cells  []Point
 }
 
 // main is the entry point to our application.
