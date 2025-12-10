@@ -40,7 +40,7 @@ type Maze struct {
 	Start       Point
 	Goal        Point
 	Walls       [][]Wall
-	CurrentNote *Node
+	CurrentNode *Node
 	Solution    Solution
 	Explored    []Point
 	Steps       int
@@ -57,8 +57,8 @@ type Node struct {
 }
 
 type Solution struct {
-	Action []string
-	Cells  []Point
+	Actions []string
+	Cells   []Point
 }
 
 // main is the entry point to our application.
