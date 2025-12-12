@@ -114,12 +114,15 @@ func (dfs *DepthFirstSearch) Solve() {
 
 		for _, x := range dfs.Neighbors(currentNode) {
 			if !dfs.ContainsState(x) {
-				if !dfs.ContainsState(x) {
-
+				if !inExplored(x.State, dfs.Game.Explored) {
+					dfs.Add(&Node{
+						State:  x.State,
+						Parent: currentNode,
+						Action: x.Action,
+					})
 				}
 			}
 		}
-
 	}
 }
 
