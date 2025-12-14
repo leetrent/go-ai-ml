@@ -3,3 +3,4 @@ $ go mod ai-search
 
 # Run program:
 $ go run . -file=maze.txt -search=dfs
+$ go run . -file=maze.txt -search=dfs -debug=true

@@ -21,14 +21,16 @@ func main() {
 	// Declare some variables.
 	var m Maze
 	var maze, searchType string
+	var debugMode bool
 
 	// Read command line flags, and set some sensible defaults.
 	flag.StringVar(&maze, "file", "maze.txt", "maze file")
 	flag.StringVar(&searchType, "search", "dfs", "search type")
+	flag.BoolVar(&debugMode, "debug", false, "debug mode")
 	flag.Parse()
 
 	// Load and parse the maze file.
-	err := m.Load(maze)
+	err := m.Load(maze, debugMode)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)

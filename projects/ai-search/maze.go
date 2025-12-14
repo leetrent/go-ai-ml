@@ -51,7 +51,7 @@ type Maze struct {
 	SearchType  int
 }
 
-func (g *Maze) Load(fileName string) error {
+func (g *Maze) Load(fileName string, debugMode bool) error {
 	f, err := os.Open(fileName)
 	if err != nil {
 		fmt.Printf("Error opening %s: %s\n", fileName, err)
@@ -126,6 +126,7 @@ func (g *Maze) Load(fileName string) error {
 		rows = append(rows, cols)
 	}
 	g.Walls = rows
+	g.Debug = debugMode
 
 	return nil
 }
