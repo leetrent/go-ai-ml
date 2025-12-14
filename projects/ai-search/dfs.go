@@ -37,15 +37,31 @@ func (dfs *DepthFirstSearch) Empty() bool {
 
 func (dfs *DepthFirstSearch) Remove() (*Node, error) {
 	if len(dfs.Frontier) > 0 {
+
 		if dfs.Game.Debug {
-			fmt.Println("Frontier before remove:")
+			fmt.Println("--------------------")
+			fmt.Println("Frontier BEFORE remove:")
 			for _, x := range dfs.Frontier {
 				fmt.Println("Node:", x.State)
 			}
+			fmt.Println("--------------------")
+			fmt.Println()
 		}
+
 		node := dfs.Frontier[len(dfs.Frontier)-1]
 		// deletes last element from slice
 		dfs.Frontier = dfs.Frontier[:len(dfs.Frontier)-1]
+
+		if dfs.Game.Debug {
+			fmt.Println("--------------------")
+			fmt.Println("Frontier AFTER remove:")
+			for _, x := range dfs.Frontier {
+				fmt.Println("Node:", x.State)
+			}
+			fmt.Println("--------------------")
+			fmt.Println()
+		}
+
 		return node, nil
 	}
 
@@ -77,9 +93,11 @@ func (dfs *DepthFirstSearch) Solve() {
 		}
 
 		if dfs.Game.Debug {
+			fmt.Println("--------------------")
+			//fmt.Println()
 			fmt.Println("Removed", currentNode.State)
-			fmt.Println("----------")
-			fmt.Println()
+			fmt.Println("--------------------")
+			//fmt.Println()
 		}
 
 		dfs.Game.CurrentNode = currentNode
