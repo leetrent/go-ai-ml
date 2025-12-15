@@ -25,8 +25,15 @@ func (dfs *DepthFirstSearch) Add(i *Node) {
 func (dfs *DepthFirstSearch) ContainsState(i *Node) bool {
 	for _, x := range dfs.Frontier {
 		if x.State == i.State {
+			if dfs.Game.Debug {
+				fmt.Println("IN frontier:", i.State)
+			}
 			return true
 		}
+	}
+
+	if dfs.Game.Debug {
+		fmt.Println("NOT IN frontier:", i.State)
 	}
 	return false
 }
@@ -169,6 +176,15 @@ func (dfs *DepthFirstSearch) Neighbors(node *Node) []*Node {
 	for i := range neighbors {
 		j := rand.Intn(i + 1)
 		neighbors[i], neighbors[j] = neighbors[j], neighbors[i]
+	}
+
+	if dfs.Game.Debug {
+		fmt.Print("neighbors for:", node.State)
+		fmt.Print(": ")
+		for _, x := range neighbors {
+			fmt.Print(x.State)
+		}
+		fmt.Println()
 	}
 
 	return neighbors
