@@ -137,6 +137,20 @@ func (dfs *DepthFirstSearch) Solve() {
 
 		dfs.Game.Explored = append(dfs.Game.Explored, currentNode.State)
 
+		if dfs.Game.Debug {
+			fmt.Print("Explored:")
+			for _, x := range dfs.Game.Explored {
+				fmt.Print(x)
+			}
+			fmt.Println()
+
+			fmt.Print("Frontier:")
+			for _, x := range dfs.Frontier {
+				fmt.Print(x.State)
+			}
+			fmt.Println()
+		}
+
 		for _, x := range dfs.Neighbors(currentNode) {
 			if !dfs.ContainsState(x) {
 				if !inExplored(x.State, dfs.Game.Explored) {
