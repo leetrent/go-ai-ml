@@ -5,6 +5,12 @@ import (
 	"image"
 	"image/color"
 	"image/draw"
+	"image/png"
+	"os"
+
+	"golang.org/x/image/font"
+	"golang.org/x/image/font/basicfont"
+	"golang.org/x/image/math/fixed"
 )
 
 // Constant.
@@ -41,41 +47,61 @@ func (g *Maze) OutputImage(fileName ...string) {
 
 	// draw square on the image
 	for i, row := range g.Walls {
-		for j, col : range row {
-			p := Point {
+		for j, col := range row {
+			p := Point{
 				Row: i,
 				Col: j,
 			}
 			if col.wall {
-				g.dwawSqaure(col, p, img, color.Black, cellSize, j*cellSize, i*cellSize)
+				// draw black square for wall.
+				g.drawSquare(col, p, img, color.Black, cellSize, j*cellSize, i*cellSize)
+			} else if g.inSolution(p) {
+				// part of solution so draw green square
+				g.drawSquare(col, p, img, green, cellSize, j*cellSize, i*cellSize)
+			} else if col.State.Row == g.Start.Row && col.State.Col == g.Start.Col {
+				// starting point, so draw dark green square
+				g.drawSquare(col, p, img, darkGreen, cellSize, j*cellSize, i*cellSize)
+			} else if col.State.Row == g.Goal.Row && col.State.Col == g.Goal.Col {
+				// starting point, so draw dark green square
+				g.drawSquare(col, p, img, red, cellSize, j*cellSize, i*cellSize)
+			} else if col.State == g.CurrentNode.State {
+				// Current location. Draw in orange.
+				g.drawSquare(col, p, img, orange, cellSize, j*cellSize, i*cellSize)
+			} else if (inExplored(Point{i, j}, g.Explored)) {
+				g.drawSquare(col, p, img, yellow, cellSize, j*cellSize, i*cellSize)
+			} else {
+				// empty, unexplored. Draw in white.
+				g.drawSquare(col, p, img, color.White, cellSize, j*cellSize, i*cellSize)
 			}
 		}
 	}
+
+	f, _ := os.Create(outFile)
+	_ = png.Encode(f, img)
 
 }
 
 // drawSquare
 func (g *Maze) drawSquare(col Wall, p Point, img *image.RGBA, c color.Color, size, x, y int) {
-	patch := image.NewRGBA{image.Rect{0, 0, size, size}}
-	dwaw.Draw(patch, patch.Bounds(), &image.Uniform{C: c}, image.Point{}, draw.Src)
+	patch := image.NewRGBA(image.Rect(0, 0, size, size))
+	draw.Draw(patch, patch.Bounds(), &image.Uniform{C: c}, image.Point{}, draw.Src)
 
-	if !col.Wall {
+	if !col.wall {
 		// Print the x, y coordinates of cell
-		p.drawSquare(col, p, img. color.Black, cellSize, J*cellSize, i*cellSize)
+		g.printLocation(p, color.Black, patch)
 	}
 
-	g.Draw(img, image.Rect(x, y, x+size, y+size), patch, image.Point{}, draw.Src )
+	draw.Draw(img, image.Rect(x, y, x+size, y+size), patch, image.Point{}, draw.Src)
 }
 
-
 // printLocation
-func (g *Maze) printLocation(p Point, c color.Color, patch *image.NewRGBA) {
-	point := fixed.Point26_6{X: fixed.I(6), y: fixed.I(40)}
-	d := &font.Drawer {
-		Dst: patch,
-		Src: image.NewUniform(c),
+func (g *Maze) printLocation(p Point, c color.Color, patch *image.RGBA) {
+	point := fixed.Point26_6{X: fixed.I(6), Y: fixed.I(40)}
+	d := &font.Drawer{
+		Dst:  patch,
+		Src:  image.NewUniform(c),
 		Face: basicfont.Face7x13,
-		Dot: point,
+		Dot:  point,
 	}
 
 	d.DrawString(fmt.Sprintf("[%d %d]", p.Row, p.Col))

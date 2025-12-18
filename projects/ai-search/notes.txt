@@ -1,6 +1,9 @@
 # Create go mod file:
 $ go mod ai-search
 
+$ go mod tidy
+
 # Run program:
 $ go run . -file=maze.txt -search=dfs
 $ go run . -file=maze.txt -search=dfs -debug=true
+$ go run . -file=maze.txt -search=dfs -debug=false
