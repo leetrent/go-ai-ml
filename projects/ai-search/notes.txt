@@ -3,6 +3,8 @@ $ go mod ai-search
 
 $ go mod tidy
 
+4 go get github.com/StephaneBunel/bresenham
+
 # Run program:
 $ go run . -file=maze.txt -search=dfs
 $ go run . -file=maze.txt -search=dfs -debug=true
